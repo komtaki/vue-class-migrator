@@ -243,7 +243,7 @@ export const createMigrationManager = (
     clazzReplacement = [
       outClazz?.getExportKeyword()?.getText(),
       `const ${outClazz.getName()} =`,
-      `defineComponent(${defineComponentInitObject})`,
+      `defineNuxtComponent(${defineComponentInitObject})`,
     ]
       .filter((s) => s)
       .join(' ');
@@ -251,7 +251,7 @@ export const createMigrationManager = (
     clazzReplacement = [
       outClazz?.getExportKeyword()?.getText(),
       outClazz?.getDefaultKeywordOrThrow()?.getText(),
-      `defineComponent(${defineComponentInitObject})`,
+      `defineNuxtComponent(${defineComponentInitObject})`,
     ]
       .filter((s) => s)
       .join(' ');

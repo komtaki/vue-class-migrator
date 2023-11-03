@@ -1,20 +1,26 @@
-import { SourceFile } from 'ts-morph';
+import { SourceFile } from "ts-morph";
 
 // Import handling
 export default (outFile: SourceFile) => {
-  const importStatementsToRemove = ['vue-property-decorator', 'vue-class-component', 'vuex-class', 'nuxt-property-decorator'];
+  const importStatementsToRemove = [
+    "vue-property-decorator",
+    "vue-class-component",
+    "vuex-class",
+    "nuxt-property-decorator",
+  ];
 
-  const vueImport = outFile.getImportDeclaration(
-    (importDeclaration) => importDeclaration.getModuleSpecifierValue() === 'vue',
+  const nuxtAppImport = outFile.getImportDeclaration(
+    (importDeclaration) =>
+      importDeclaration.getModuleSpecifierValue() === "nuxt/app"
   );
 
-  if (!vueImport) {
+  if (!nuxtAppImport) {
     outFile.addImportDeclaration({
-      defaultImport: '{ defineComponent }',
-      moduleSpecifier: 'vue',
+      defaultImport: "{ defineNuxtComponent }",
+      moduleSpecifier: "nuxt/app",
     });
   } else {
-    vueImport.addNamedImport('defineComponent');
+    nuxtAppImport.addNamedImport("defineNuxtComponent");
   }
 
   outFile.getImportDeclarations().forEach((importDeclaration) => {
