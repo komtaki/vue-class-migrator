@@ -53,7 +53,7 @@ const migrateVueFile = async (project: Project, vueSourceFile: SourceFile) => {
 };
 
 export const migrateFile = async (project: Project, sourceFile: SourceFile) => {
-  logger.info(`Migrating ${sourceFile.getBaseName()}`);
+  logger.info(`Migrating ${sourceFile.getFilePath()}`);
   if (!sourceFile.getText().includes('@Component')) {
     throw new Error('File already migrated');
   }
@@ -92,7 +92,7 @@ export const migrateDirectory = async (directoryPath: string, toSFC: boolean) =>
     `Migrating directory: ${directoryToMigrate}, ${finalFilesToMigrate.length} Files needs migration`,
   );
 
-  const migrationPromises = finalFilesToMigrate
+  const migrationPromises = finalFilesToMigrate.slice(0, 1)
     .map((sourceFile) => migrateFile(project, sourceFile)
       .catch((err) => {
         logger.error(`Error migrating ${sourceFile.getFilePath()}`);
